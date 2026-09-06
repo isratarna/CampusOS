@@ -1,8 +1,9 @@
 import * as React from "react"
 import { Link, useLocation, useSearchParams } from "react-router-dom"
 import { cn } from "@/lib/utils"
-import { NAV_SECTIONS } from "./nav"
+import { navSectionsForRole } from "./nav"
 import { Eyebrow } from "./primitives"
+import { useAuth } from "@/context/AuthContext"
 import { PanelLeftClose, PanelLeftOpen, Sparkles, X } from "lucide-react"
 
 /* ============================================================
@@ -127,6 +128,10 @@ export function Sidebar({ expanded, onToggle, onOpenAssistant, mobileOpen, onClo
   const { pathname } = useLocation()
   const [params] = useSearchParams()
   const currentView = params.get("view")
+  const { user } = useAuth()
+
+  // the rail only offers what this role is actually allowed to open
+  const sections = navSectionsForRole(user?.role)
 
   return (
     <>
@@ -165,7 +170,7 @@ export function Sidebar({ expanded, onToggle, onOpenAssistant, mobileOpen, onClo
 
         {/* sections */}
         <nav className="flex-1 px-3 py-3">
-          {NAV_SECTIONS.map((section, i) => (
+          {sections.map((section, i) => (
             <div key={section.id} className={cn(i > 0 && "mt-4")}>
               {expanded ? (
                 <Eyebrow className="mb-1.5 block px-3 text-white/30">{section.label}</Eyebrow>

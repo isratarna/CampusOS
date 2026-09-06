@@ -1,250 +1,154 @@
-# FacultyOS — Smart Classroom & AI Timetable Scheduler
 
-A MERN application for running an academic department: a catalogue of **courses**,
-a directory of **faculty** with their availability, an inventory of **rooms**, and
-an **AI timetable generator** that fits them together without clashes. A Gemini-backed
-assistant answers scheduling questions in context, and an alerts inbox surfaces
-anything that needs a look.
 
----
+# 📚 Smart Classroom & AI Timetable Scheduler
 
-## Table of contents
+A **MERN-based Smart Classroom Management System** that helps manage **faculties, rooms, and courses**, while automatically generating an **AI-powered timetable** that assigns the **right faculty to the right course**. It also includes a **chatbot** for students and faculty to query the timetable in real time.
 
-- [Features](#features)
-- [Tech stack](#tech-stack)
-- [Project structure](#project-structure)
-- [Getting started](#getting-started)
-- [Environment variables](#environment-variables)
-- [API reference](#api-reference)
-- [Data models](#data-models)
-- [How timetable generation works](#how-timetable-generation-works)
-- [Frontend notes](#frontend-notes)
-- [Changelog](#changelog)
+<img width="1878" height="922" alt="image" src="https://github.com/user-attachments/assets/6e84e2ac-f10f-4896-a203-c8b110168886" />
+
+<img width="1888" height="902" alt="image" src="https://github.com/user-attachments/assets/564d1596-83ea-49f7-ac3a-ccbe5bb9c3be" />
+
+<img width="1897" height="910" alt="image" src="https://github.com/user-attachments/assets/afe3955a-f8c3-4843-bcb4-d7c34f7a4165" />
+
+<img width="1918" height="908" alt="image" src="https://github.com/user-attachments/assets/1e5d818d-4bcf-44af-b254-ca0fd8330e75" />
+
+<img width="1907" height="916" alt="image" src="https://github.com/user-attachments/assets/be5e4200-8d7f-4d45-96b2-a14073f32989" />
+
+<img width="1917" height="906" alt="image" src="https://github.com/user-attachments/assets/2baee206-6a8f-4a5c-8051-0eba748eb138" />
+
+<img width="1905" height="897" alt="image" src="https://github.com/user-attachments/assets/2f71c22a-ff22-474b-a858-22c57de01878" />
+
 
 ---
 
-## Features
+## 🚀 Features
 
-**Courses** — catalogue with code, department, credits, semester/year, prerequisites,
-course type (`lecture` / `lab` / `seminar`) and weekly hours. Everything a timetable
-is built from.
+* 👨‍🏫 **Faculty Management**
 
-**Faculty** — directory with department, specializations, a per-weekday availability
-grid, a weekly hour cap, and preferred / avoided time slots.
+  * Add, update, and manage faculty members with their expertise.
 
-**Rooms** — every teachable space: building, floor, capacity, type
-(`lecture_hall` / `lab` / `seminar_room` / `auditorium`), equipment, and per-weekday
-availability.
+* 🏫 **Room Management**
 
-**Timetables** — draft, generate, and publish a semester. Each timetable stores its
-schedule entries, a `draft` / `published` / `archived` status, a list of detected
-conflicts, and metadata (total hours, utilisation rate, conflict count).
+  * Add classrooms with seating capacity and availability.
 
-**AI timetable generation** — `POST /api/timetables/generate` builds a clash-free
-schedule across a fixed weekly slot grid, respecting faculty availability, hour caps
-and room fit, and writes a notification when it finishes.
+* 📘 **Course Management**
 
-**AI assistant** — `POST /api/ai/chat` passes the user's message plus the current
-app context to `gemini-2.5-flash` and returns a scheduling answer. Reachable from
-the in-app assistant dock.
+  * Create and assign courses with prerequisites and credit details.
 
-**Alerts** — notifications with `info` / `warning` / `error` / `success` types and a
-read/unread state.
+* 📅 **AI Timetable Generator**
 
-**Landing page** — a marketing page with a scroll-scrubbed 29-frame teardown of the
-dashboard (`frontend/public/sequence/`), painted to a canvas and driven imperatively
-so the scrub never waits on a React re-render.
+  * Automatically generates an optimized timetable.
+  * Ensures no clashes between rooms, faculty, and courses.
+  * Maps correct faculty to correct courses based on expertise.
 
----
+* 🔐 **Multi-Role Authentication & Access Control (RBAC)**
+  * Pre-configured roles: **Admin / Dean**, **Faculty Member**, and **Student Representative**.
+  * **1-Click Demo Login & Autofill**: Instant button to auto-fill inputs or sign in with 1-click on the `/login` portal.
+  * Fast role-switcher directly in the navigation bar to test views across different roles seamlessly.
+  * JWT Bearer token authentication with role-protected client and server routes.
 
-## Tech stack
+* 🧠 **Faculty Agentic AI Copilot (Autonomous Academic Suite)**
 
-| Layer | What's used |
-| --- | --- |
-| Frontend | React 19, Vite (rolldown-vite), React Router 7, Tailwind CSS 4, Radix UI primitives, lucide-react, axios, react-markdown |
-| Backend | Node.js, Express 5 (ESM), Mongoose 8, CORS, dotenv |
-| Database | MongoDB |
-| AI | Google Gemini (`@google/genai`), model `gemini-2.5-flash` |
+  * **Curriculum & Syllabus Architect**: Generates accredited semester course outlines mapped to Bloom's Taxonomy with 1-click sync into the Course database.
+  * **Exam Crafter & Live Co-Pilot**: Generates balanced exams, model answers, and rubrics. Features **real-time question suggestions** and an interactive **Question Quality Analyzer** (assessing clarity, Bloom's level, ambiguity, and difficulty).
+  * **Multimodal Vision Auto-Grader**: Ingests student answer sheets (scanned PDFs, handwritten photos, typed text) via Gemini Vision. Performs explainable grading with **exact student answer script citations** and faculty-defined partial credit rules.
+  * **Inter-Rater Consistency & Calibration Auditor**: Directly tackles grading discrepancies across multiple instructors and TAs, computing an Inter-Rater Reliability (IRR) score and standardizing consensus marks.
+  * **Cohort Pedagogical Insights**: Analyzes class-wide misconceptions and automatically generates remedial lecture plans.
 
 ---
 
-## Project structure
+## 🛠️ Tech Stack
+
+* **Frontend**: React.js, Tailwind CSS
+* **Backend**: Node.js, Express.js
+* **Database**: MongoDB
+* **AI**: Timetable generation algorithm (genetic algorithm/constraint satisfaction)
+* **Chatbot**: AI-powered assistant 
+
+---
+
+## 📂 Project Structure
 
 ```
-Smart-Classroom-main/
-├── backend/
-│   ├── models/
-│   │   ├── course.js             # Course schema
-│   │   ├── Faculty.js            # Faculty + availability / preferences
-│   │   ├── Room.js               # Room + availability
-│   │   ├── Timetable.js          # Schedule entries, conflicts, metadata
-│   │   └── Notification.js       # Alerts
-│   ├── routes/
-│   │   ├── coursesRoute.js       # /api/courses
-│   │   ├── facultyRoute.js       # /api/faculty
-│   │   ├── roomsRoute.js         # /api/rooms
-│   │   ├── timetableRoute.js     # /api/timetables (+ /generate)
-│   │   ├── aiRoute.js            # /api/ai/chat
-│   │   └── notificationsRoute.js # /api/notifications
-│   ├── utils/
-│   │   ├── dbConnect.js          # Mongoose connection
-│   │   └── timetableGenerator.js # Slot grid + Gemini-assisted scheduling
-│   └── server.js                 # Express app, CORS, router mounting
-│
-└── frontend/
-    ├── public/sequence/          # PNG frames for the landing teardown
-    └── src/
-        ├── App.jsx               # Routes: / (landing) + workspace shell
-        ├── pages/                # Landing, Dashboard, Courses, Faculty,
-        │                         # Rooms, Timetable, Notifications
-        ├── components/
-        │   ├── app/              # AppShell, Sidebar, Topbar, DataGrid, Form,
-        │   │                     # Modal, Toast, StatCard, AssistantDock,
-        │   │                     # CampusProvider, nav.js
-        │   ├── landing/          # Deconstruct (canvas scrub), hooks, primitives
-        │   └── ui/               # shadcn-style primitives
-        ├── lib/
-        │   ├── api.js            # Single axios instance + error normaliser
-        │   ├── domain.js         # Domain helpers
-        │   └── utils.js
-        └── styles/               # app.css, landing.css
+smart-classroom/
+├── backend/           # Node.js + Express APIs
+│   ├── models/        # Faculty, Room, Course schemas
+│   ├── routes/        # API routes
+│   └── controllers/   # Logic for handling requests
+├── frontend/          # React.js client
+│   ├── components/    # Reusable UI components
+│   ├── pages/         # Pages (Dashboard, Timetable, Chatbot)
+│   └── utils/         # Helper functions
+├── ai/                # Timetable generation + chatbot logic
+└── README.md          # Project documentation
 ```
 
 ---
 
-## Getting started
+## ⚙️ Installation
 
-**Prerequisites:** Node.js 18+, a MongoDB connection string, and a Google AI API key.
+1. **Clone the repository**
 
-**1. Backend**
+   ```bash
+   git clone https://github.com/your-username/smart-classroom.git
+   cd smart-classroom
+   ```
 
-```bash
-cd backend
-npm install
-# create .env — see below
-npm run dev            # nodemon server.js
-```
+2. **Backend setup**
 
-**2. Frontend** (in a second terminal)
+   ```bash
+   cd backend
+   npm install
+   npm start
+   ```
 
-```bash
-cd frontend
-npm install
-npm run dev            # Vite dev server on http://localhost:5173
-```
+3. **Frontend setup**
 
-The frontend talks to `http://localhost:5000/api` by default. Open the landing page
-at `/` and the workspace at `/dashboard`.
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
 
-**Frontend scripts:** `npm run dev` · `npm run build` · `npm run preview` · `npm run lint`
+4. **Environment Variables**
 
----
+   * Create a `.env` file in `backend/` with:
 
-## Environment variables
-
-`backend/.env`:
-
-```
-MONGO_URI=your_mongodb_connection_string
-PORT=5000
-GOOGLE_API_KEY=your_google_ai_api_key
-```
-
-> `server.js` listens on `process.env.PORT` directly, so `PORT` must be set.
-
-`frontend/.env` (optional — only needed to point at a deployed API):
-
-```
-VITE_API_URL=https://your-api-host/api
-```
+     ```
+     MONGO_URI=your_mongodb_connection
+     PORT=5000
+     AI_API_KEY=your_ai_key_if_any
+     ```
 
 ---
 
-## API reference
+## 🎯 Future Enhancements
 
-Base URL: `http://localhost:5000/api`
-
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| GET | `/courses` | List courses |
-| GET | `/courses/:id` | One course |
-| POST | `/courses` | Create a course |
-| PUT | `/courses/:id` | Update a course |
-| DELETE | `/courses/:id` | Delete a course |
-| GET | `/faculty` · `/faculty/:id` | List all / one faculty member |
-| POST · PUT · DELETE | `/faculty` · `/faculty/:id` | Create / update / delete |
-| GET | `/rooms` · `/rooms/:id` | List all / one room |
-| POST · PUT · DELETE | `/rooms` · `/rooms/:id` | Create / update / delete |
-| GET | `/timetables` · `/timetables/:id` | List all / one timetable |
-| POST · PUT · DELETE | `/timetables` · `/timetables/:id` | Create / update / delete |
-| POST | `/timetables/generate` | Generate a schedule |
-| GET | `/notifications` | List alerts |
-| POST | `/notifications` | Create an alert |
-| PUT | `/notifications/:id/read` | Mark an alert read |
-| DELETE | `/notifications/:id` | Delete an alert |
-| POST | `/ai/chat` | `{ message, context }` → `{ response }` |
+* 📊 Dashboard with analytics for faculty workload and room usage.
+* 🔔 Notification system for class changes/cancellations.
+* 🧑‍🎓 Student portal with personalized schedules.
+* 🌐 Multi-language support for chatbot.
 
 ---
 
-## Data models
+## 🤝 Contributing
 
-**Course** — `name`, `code` (unique), `department`, `credits`, `semester`, `year`,
-`description`, `duration` (weeks, default 13), `prerequisites[]`,
-`type` (`lecture` / `lab` / `seminar`), `hoursPerWeek` (default 3).
-
-**Faculty** — `name`, `email` (unique), `department`, `specialization[]`,
-`availability` (per weekday, arrays of `{ start, end }`), `maxHoursPerWeek`,
-`preferences.preferredTimeSlots[]` / `avoidTimeSlots[]`.
-
-**Room** — `name`, `building`, `floor`, `capacity`,
-`type` (`lecture_hall` / `lab` / `seminar_room` / `auditorium`), `equipment[]`,
-`availability` (per weekday).
-
-**Timetable** — `name`, `semester`, `year`, `department`,
-`schedule[]` of `{ courseId, facultyId, roomId, day, startTime, endTime }`,
-`status` (`draft` / `published` / `archived`), `conflicts[]`,
-`metadata { totalHours, utilizationRate, conflictCount }`.
-
-**Notification** — `title`, `message`, `type` (`info` / `warning` / `error` /
-`success`), `isRead`, `createdAt`.
+Contributions are welcome! Feel free to fork this repo and submit a pull request.
 
 ---
 
-## How timetable generation works
+## 📜 License
 
-`backend/utils/timetableGenerator.js` works against a fixed weekly grid:
-
-- **Days:** Monday–Friday
-- **Slots:** 09:00–10:00, 10:00–11:00, 11:15–12:15, 14:15–15:15, 15:15–16:15, 16:30–17:30
-- **Break:** 12:15–13:15, never scheduled
-- **Term length:** 13 weeks — a course's weekly session count is
-  `ceil(totalHours / 13)`, falling back to `hoursPerWeek` (default 3)
-
-Courses, faculty and rooms are pulled from MongoDB, Gemini proposes assignments,
-the response is parsed and validated against faculty availability, hour caps and
-room fit, and the result is saved as a `Timetable` with any conflicts recorded.
-A `Notification` is written when generation completes.
+This project is licensed under the **MIT License**.
 
 ---
 
-## Frontend notes
+## 💡 Acknowledgements
 
-- **One shared cache.** `CampusProvider` holds all five collections (courses,
-  faculty, rooms, timetables, notifications). Pages render from it instantly on
-  navigation and call `refresh(key)` after a mutation, so the sidebar badge, the
-  dashboard totals and each page's list can never disagree.
-- **One nav model.** `components/app/nav.js` is the single source of truth for the
-  sidebar, the topbar breadcrumb and each page's sub-menu. Sub-views double as deep
-  links via `?view=<id>`.
-- **One axios instance.** `lib/api.js` sets the base URL (overridable with
-  `VITE_API_URL`), and `apiError()` turns any failure into a readable message.
-- **Landing teardown.** `components/landing/Deconstruct.jsx` scrubs the PNG frame
-  sequence on a canvas as you scroll, cross-fading between frames and interpolating
-  the page background from each frame's own edge colours so there is no visible
-  canvas box.
+* MERN Stack community
+* GeminiAI / Dialogflow for chatbot inspiration
+* Constraint Satisfaction Problem (CSP) & Genetic Algorithms for timetable generation
 
 ---
 
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for the running log of changes to this project.
+👉 Would you like me to also **add some sample screenshots / usage GIF placeholders** in the README so it looks more professional on GitHub?

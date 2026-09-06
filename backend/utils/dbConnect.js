@@ -3,11 +3,15 @@ import mongoose from "mongoose";
 
 const dbConnect = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        const uri = process.env.MONGO_URI || process.env.MONGODB_URI;
+        if (!uri) {
+            console.warn("MongoDB URI not found in environment variables.");
+            return;
+        }
+        await mongoose.connect(uri);
         console.log("Database connected");
     } catch (error) {
-        console.log("Database connection error",error);
-        process.exit(1);
+        console.log("Database connection error", error);
     }
 };
 
