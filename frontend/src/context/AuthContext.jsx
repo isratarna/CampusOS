@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { api } from "@/lib/api"
+import { api, apiError } from "@/lib/api"
 
 /* ============================================================
    Session.
@@ -47,6 +47,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = React.useState(() => storedToken())
   const [loading, setLoading] = React.useState(true)
   const [demoAccounts, setDemoAccounts] = React.useState([])
+  const [demoError, setDemoError] = React.useState("")
 
   React.useEffect(() => {
     applyToken(token)
@@ -59,9 +60,14 @@ export function AuthProvider({ children }) {
     const boot = async () => {
       try {
         const res = await api.get("/auth/demo-accounts")
-        if (!cancelled && res.data?.accounts) setDemoAccounts(res.data.accounts)
-      } catch {
-        /* demo accounts are a convenience, not a requirement */
+        if (!cancelled && res.data?.accounts) {
+          setDemoAccounts(res.data.accounts)
+          setDemoError("")
+        }
+      } catch (err) {
+        // the sign-in page leans on these, so say why they are missing
+        // rather than quietly rendering an empty panel
+        if (!cancelled) setDemoError(apiError(err, "Demo profiles are unavailable."))
       }
 
       const existing = storedToken()
@@ -130,8 +136,18 @@ export function AuthProvider({ children }) {
   )
 
   const value = React.useMemo(
-    () => ({ user, token, loading, demoAccounts, login, register, logout, quickSwitchDemoUser }),
-    [user, token, loading, demoAccounts, login, register, logout, quickSwitchDemoUser]
+    () => ({
+      user,
+      token,
+      loading,
+      demoAccounts,
+      demoError,
+      login,
+      register,
+      logout,
+      quickSwitchDemoUser,
+    }),
+    [user, token, loading, demoAccounts, demoError, login, register, logout, quickSwitchDemoUser]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

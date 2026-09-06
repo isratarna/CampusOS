@@ -2,7 +2,10 @@ import * as React from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
   ArrowRight,
+  Check,
+  Copy,
   GraduationCap,
+  PlugZap,
   ShieldAlert,
   ShieldCheck,
   Sparkles,
@@ -44,7 +47,43 @@ const ROLE_OPTIONS = [
   { value: "student", label: "Student" },
 ]
 
-/** One seeded profile: fill the form, or go straight in. */
+/** A credential you can read, and copy with one click. */
+function Credential({ label, value }) {
+  const [copied, setCopied] = React.useState(false)
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(value)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1200)
+    } catch {
+      /* clipboard blocked; the value is on screen to type by hand */
+    }
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <span className="co-eyebrow w-[68px] shrink-0">{label}</span>
+      <code className="min-w-0 flex-1 truncate rounded-[3px] bg-bone-2 px-1.5 py-0.5 font-mono text-[11px] text-ink">
+        {value}
+      </code>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={`Copy ${label.toLowerCase()}`}
+        className="co-press grid size-6 shrink-0 place-items-center rounded-[3px] text-mut-2 hover:bg-bone-2 hover:text-ink"
+      >
+        {copied ? (
+          <Check className="size-3 text-green" strokeWidth={2.6} />
+        ) : (
+          <Copy className="size-3" strokeWidth={2.2} />
+        )}
+      </button>
+    </div>
+  )
+}
+
+/** One seeded profile: read the credentials, fill the form, or go straight in. */
 function DemoCard({ account, filled, onFill, onEnter, busy }) {
   const meta = ROLE_META[account.role] || ROLE_META.faculty
 
@@ -63,15 +102,14 @@ function DemoCard({ account, filled, onFill, onEnter, busy }) {
             <p className="truncate text-[13px] font-semibold text-ink">{account.name}</p>
             <StatusTag tone={meta.tone}>{meta.label}</StatusTag>
           </div>
-          <p className="co-index mt-0.5 truncate">{account.email}</p>
           {account.description && (
-            <p className="mt-1.5 text-[11.5px] leading-relaxed text-mut">{account.description}</p>
+            <p className="mt-1 text-[11.5px] leading-relaxed text-mut">{account.description}</p>
           )}
         </div>
 
         <div className="flex shrink-0 flex-col items-end gap-1.5">
           <Button size="sm" onClick={() => onEnter(account)} disabled={busy}>
-            Enter <ArrowRight />
+            Sign in <ArrowRight />
           </Button>
           <button
             type="button"
@@ -82,12 +120,19 @@ function DemoCard({ account, filled, onFill, onEnter, busy }) {
           </button>
         </div>
       </div>
+
+      {/* the credentials in the open: these are throwaway demo logins, and
+          having them on screen means you can still get in by hand */}
+      <div className="mt-3 space-y-1 border-t border-line-2 pt-3">
+        <Credential label="Email" value={account.email} />
+        <Credential label="Password" value={account.password} />
+      </div>
     </li>
   )
 }
 
 export default function LoginPage() {
-  const { login, register, demoAccounts, quickSwitchDemoUser } = useAuth()
+  const { login, register, demoAccounts, demoError, quickSwitchDemoUser } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -177,10 +222,20 @@ export default function LoginPage() {
               </p>
 
               {demoAccounts.length === 0 ? (
-                <p className="mt-6 rounded-md border border-dashed border-line bg-paper px-4 py-6 text-center text-[12px] text-mut">
-                  No demo profiles are available — the API may still be starting. Sign in with your own
-                  details instead.
-                </p>
+                <div className="mt-5">
+                  {/* an empty panel reads as "this feature is gone", so name the
+                      actual cause — nearly always an API that is not up yet */}
+                  <ErrorNote icon={PlugZap}>
+                    {demoError || "Loading the demo profiles…"}
+                    {demoError && (
+                      <>
+                        {" "}
+                        Start the API with <code className="font-mono">npm run dev</code> in{" "}
+                        <code className="font-mono">backend/</code>, then reload.
+                      </>
+                    )}
+                  </ErrorNote>
+                </div>
               ) : (
                 <ul className="co-stagger mt-5 space-y-3">
                   {demoAccounts.map((account) => (
