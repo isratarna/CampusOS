@@ -181,7 +181,7 @@ function ComposeView({ onPublished }) {
         <PanelHead
           icon={Send}
           title="New announcement"
-          caption="Goes out to everyone with access to CampusOS"
+          caption="Goes out to everyone with access to FacultyOS"
         />
         <form onSubmit={submit} className="space-y-5 p-5">
           {error && <ErrorNote icon={CircleAlert}>{error}</ErrorNote>}

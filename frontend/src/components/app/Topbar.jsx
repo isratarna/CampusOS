@@ -241,10 +241,10 @@ export function Topbar({ onOpenMobile, onOpenAssistant }) {
 
       {/* breadcrumb */}
       <div className="flex min-w-0 shrink items-center gap-2">
-        <Eyebrow className="hidden shrink-0 sm:inline">{item?.section || "CampusOS"}</Eyebrow>
+        <Eyebrow className="hidden shrink-0 sm:inline">{item?.section || "FacultyOS"}</Eyebrow>
         <ChevronRight className="hidden size-3 shrink-0 text-mut-2 sm:block" strokeWidth={2.4} />
         <span className="truncate text-[13px] font-semibold tracking-[-0.01em] text-ink">
-          {item?.label || "CampusOS"}
+          {item?.label || "FacultyOS"}
         </span>
       </div>
 

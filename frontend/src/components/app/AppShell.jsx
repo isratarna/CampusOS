@@ -55,7 +55,7 @@ export function AppShell({ children }) {
         <footer className="mx-auto w-full max-w-[1440px] px-4 pb-10 sm:px-6 lg:px-8">
           <div className="co-rule mb-3" />
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="co-index">CampusOS · Your campus, sorted</span>
+            <span className="co-index">FacultyOS · Your campus, sorted</span>
             <span className="co-index">
               {new Date().getFullYear()} · Scheduling Office
             </span>

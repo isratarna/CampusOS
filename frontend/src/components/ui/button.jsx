@@ -4,7 +4,7 @@ import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-/* CampusOS buttons: flat print-shop blocks, hairline borders, a
+/* FacultyOS buttons: flat print-shop blocks, hairline borders, a
    single shared press curve (.co-press) so every control in the app
    depresses by exactly the same amount. */
 

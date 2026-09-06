@@ -586,7 +586,7 @@ function ConflictsView({ onSelect }) {
         <EmptyState
           icon={CircleCheck}
           title="No clashes"
-          description="Every timetable currently in CampusOS is free of conflicts."
+          description="Every timetable currently in FacultyOS is free of conflicts."
         />
       </Panel>
     )

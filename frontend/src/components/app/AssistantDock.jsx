@@ -117,7 +117,7 @@ export function AssistantDock({ open, onClose }) {
 
       <aside
         role="dialog"
-        aria-label="CampusOS assistant"
+        aria-label="FacultyOS assistant"
         aria-hidden={!open}
         className={cn(
           "fixed inset-y-0 right-0 z-50 flex w-full max-w-[420px] flex-col border-l border-line bg-paper shadow-pop",
@@ -153,7 +153,7 @@ export function AssistantDock({ open, onClose }) {
             <div className="co-fade">
               <p className="text-[13px] leading-relaxed text-mut">
                 Ask about the timetable, teaching load or room capacity. The assistant sees the
-                data currently loaded in CampusOS.
+                data currently loaded in FacultyOS.
               </p>
               <Eyebrow className="mt-6 block">Try one</Eyebrow>
               <div className="mt-2 space-y-1.5">

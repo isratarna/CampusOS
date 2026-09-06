@@ -14,7 +14,7 @@ import { PanelLeftClose, PanelLeftOpen, Sparkles, X } from "lucide-react"
    the sub-menus inside the destination you are currently in.
    ============================================================ */
 
-const STORAGE_KEY = "campusos:sidebar-expanded"
+const STORAGE_KEY = "FacultyOS:sidebar-expanded"
 
 export function useSidebarState() {
   const [expanded, setExpanded] = React.useState(() => {
@@ -41,7 +41,7 @@ function BrandMark({ expanded }) {
     <Link
       to="/"
       className="co-press group flex items-center gap-2.5 rounded-sm px-1 py-1 hover:bg-white/8"
-      title="CampusOS home"
+      title="FacultyOS home"
     >
       <span className="relative grid size-9 shrink-0 place-items-center rounded-sm bg-amber">
         {/* Two offset bars: the mark reads as a stacked timetable block */}
@@ -55,7 +55,7 @@ function BrandMark({ expanded }) {
         )}
       >
         <span className="block truncate text-[15px] font-bold tracking-[-0.03em] text-white">
-          CampusOS
+          FacultyOS
         </span>
         <span className="block truncate text-[9px] font-medium uppercase tracking-[0.14em] text-white/45">
           Your campus, sorted

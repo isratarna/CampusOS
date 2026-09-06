@@ -397,7 +397,7 @@ export default function Deconstruct() {
       className="lp-dx"
       ref={sectionRef}
       style={{ height: `${scrubVh}svh` }}
-      aria-label="Interactive teardown of the CampusOS dashboard"
+      aria-label="Interactive teardown of the FacultyOS dashboard"
     >
       <div className="lp-dx-pin" ref={pinRef}>
         <canvas className="lp-dx-canvas" ref={canvasRef} aria-hidden="true" />

@@ -76,7 +76,7 @@ function Nav() {
             <i />
           </span>
           <span className="lp-logo-txt">
-            <b>CampusOS</b>
+            <b>FacultyOS</b>
             <small>Smart Classroom</small>
           </span>
         </a>
@@ -160,7 +160,7 @@ function Hero() {
 
         <Reveal delay={760} y={20}>
           <p className="lp-lede">
-            CampusOS is one dashboard for courses, faculty, rooms and timetables. Scroll and the
+            FacultyOS is one dashboard for courses, faculty, rooms and timetables. Scroll and the
             interface comes apart layer by layer, so you can see exactly which live system is doing
             the work behind every card.
           </p>
@@ -696,7 +696,7 @@ function Footer() {
                 <i />
               </span>
               <span className="lp-logo-txt">
-                <b>CampusOS</b>
+                <b>FacultyOS</b>
                 <small>Smart Classroom</small>
               </span>
             </span>
@@ -730,7 +730,7 @@ function Footer() {
         </div>
 
         <div className="lp-footbar">
-          <span>© {new Date().getFullYear()} CampusOS · Smart Classroom Scheduler</span>
+          <span>© {new Date().getFullYear()} FacultyOS · Smart Classroom Scheduler</span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
             <Github size={14} /> Built with React, Express, MongoDB and Gemini
           </span>

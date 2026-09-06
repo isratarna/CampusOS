@@ -4,7 +4,7 @@ import { accent } from "@/lib/domain"
 import { Loader2 } from "lucide-react"
 
 /* ============================================================
-   CampusOS editorial primitives.
+   FacultyOS editorial primitives.
    Flat paper surfaces, hairline rules, print-shop detailing.
    ============================================================ */
 

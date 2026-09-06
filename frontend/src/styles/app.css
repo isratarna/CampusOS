@@ -1,5 +1,5 @@
 /* ============================================================
-   CampusOS — application surface, texture & motion primitives.
+   FacultyOS — application surface, texture & motion primitives.
    Plain CSS on top of the tokens declared in src/index.css so it
    stays independent of Tailwind's layer ordering.
    ============================================================ */

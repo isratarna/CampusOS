@@ -103,7 +103,7 @@ Three symbols were imported by six pages (`Dashboard`, `Courses`, `Faculty`,
 ### Request
 
 Capture the work completed so far in the project: landing-page teardown tuning,
-removal of the caption overlay, the CampusOS app UI rebuild, and the README /
+removal of the caption overlay, the FacultyOS app UI rebuild, and the README /
 changelog documentation pass.
 
 ### Changes
@@ -113,7 +113,7 @@ changelog documentation pass.
   work, and slower, more controlled scroll pacing.
 - Removed the caption overlay from the teardown video while keeping the rail,
   chips, hint text, and chapter logic in place for a clean visual result.
-- Rebuilt the authenticated app UI around the CampusOS design system with a new
+- Rebuilt the authenticated app UI around the FacultyOS design system with a new
   color/token layer, app shell, sidebar menu structure, shared domain utilities,
   and reusable component primitives.
 - Reworked the project documentation to match the actual codebase: the README was
@@ -258,7 +258,7 @@ are the two dials to turn if the feel is still off.
 
 ---
 
-## 2026-09-06 — Rebuild the application UI on the CampusOS design system
+## 2026-09-06 — Rebuild the application UI on the FacultyOS design system
 
 **Area:** the authenticated app (`/dashboard`, `/courses`, `/faculty`, `/rooms`,
 `/timetables`, `/notifications`) — everything behind the landing page.
@@ -270,7 +270,7 @@ are the two dials to turn if the feel is still off.
 ### Request
 
 Use the reference sheets in `frontend/ref/dash/` (`image.png`, `background.png`)
-as the design direction for the project UI. Keep the name **CampusOS**. No
+as the design direction for the project UI. Keep the name **FacultyOS**. No
 generic emoji or icon glyphs — use a real icon library (`lucide-react`). Use
 micro-transitions, stay consistent with the rest of the project, keep the design
 minimalistic and user-friendly, and split the components across multiple menus
@@ -284,7 +284,7 @@ rail, stat cards, meters, a table, and a warm paper background with Bauhaus
 blocks, halftone patches and printer's crop marks.
 
 The app pages were on a dark slate/cyan glassmorphism theme that matched neither
-that sheet nor the existing landing page, which already ships a CampusOS system
+that sheet nor the existing landing page, which already ships a FacultyOS system
 in `frontend/src/styles/landing.css` (ink `#0E1013`, bone `#F6F4EF`, amber
 `#F5B42B`, blue `#2563EB`). The new app tokens are reconciled against **both**,
 so the landing page and the app now read as one product.
@@ -292,7 +292,7 @@ so the landing page and the app now read as one product.
 ### Changes
 
 **`frontend/src/index.css`** — replaced the stock shadcn neutral theme with the
-CampusOS token layer.
+FacultyOS token layer.
 
 - `@theme` now declares the real palette: ink / bone / paper / mut / line
   neutrals, and amber, blue, red, violet, green, cyan accents each with a `-soft`
@@ -303,7 +303,7 @@ CampusOS token layer.
   `--ease-spring`) and a three-step shadow scale, so every component animates and
   elevates off the same values.
 - Kept the shadcn semantic bridge (`--color-primary`, `--color-border`, …) but
-  repointed it at the CampusOS palette, so the existing `components/ui/*`
+  repointed it at the FacultyOS palette, so the existing `components/ui/*`
   primitives inherit the new look without being rewritten.
 - Body now sets Inter, the landing page's `font-feature-settings`, and a global
   blue focus ring.

@@ -1,4 +1,4 @@
-# CampusOS — Smart Classroom & AI Timetable Scheduler
+# FacultyOS — Smart Classroom & AI Timetable Scheduler
 
 A MERN application for running an academic department: a catalogue of **courses**,
 a directory of **faculty** with their availability, an inventory of **rooms**, and
