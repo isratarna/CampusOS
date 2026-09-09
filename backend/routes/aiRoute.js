@@ -2,8 +2,10 @@ import { Router } from "express";
 import { GoogleGenAI } from "@google/genai";
 
 export const aiRouter = Router();
-const ai = new GoogleGenAI({
-  apiKey: process.env.GOOGLE_API_KEY,});
+const getAiClient = () => {
+  const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY_1 || process.env.GEMINI_API_KEY_2 || "dummy_key";
+  return new GoogleGenAI({ apiKey });
+};
 
 aiRouter.post("/chat", async (req, res) => {
   try {
@@ -16,6 +18,7 @@ Current context: ${JSON.stringify(context || {})}
 
 Provide helpful, accurate responses about scheduling, timetable management, and educational administration.`;
 
+    const ai = getAiClient();
     const { text } = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: [`${systemPrompt}\nUser: ${message}\nAI:`],

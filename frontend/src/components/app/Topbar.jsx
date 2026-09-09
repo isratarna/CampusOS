@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils"
 import { navItemByPath } from "./nav"
 import { useCampus } from "./CampusProvider"
 import { Eyebrow, IconChip } from "./primitives"
-import { initials, titleCase } from "@/lib/domain"
+import { titleCase } from "@/lib/domain"
+import RoleNavbarBadge from "@/components/RoleNavbarBadge"
 import {
   Bell,
   BookOpen,
@@ -278,9 +279,9 @@ export function Topbar({ onOpenMobile, onOpenAssistant }) {
           )}
         </Link>
 
-        <span className="ml-1 grid size-9 place-items-center rounded-sm bg-ink text-[11px] font-bold tracking-wide text-paper">
-          {initials("Scheduling Office")}
-        </span>
+        <div className="ml-1">
+          <RoleNavbarBadge />
+        </div>
       </div>
     </header>
   )
